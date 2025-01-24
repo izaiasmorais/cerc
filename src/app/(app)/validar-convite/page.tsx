@@ -3,8 +3,6 @@ import { InvalidInvitation } from "@/components/invitations/invalid-invitation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { EmptyState } from "@/components/global/empty-state";
-import { InvitationData } from "@/components/invitations/invitation-data";
 
 export default function ValidateInvite() {
 	const router = useRouter();
