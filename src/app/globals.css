@@ -67,3 +67,9 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+@layer utilities {
+	input:-webkit-autofill {
+		@apply bg-red-500 text-black transition-colors duration-500;
+	}
+}

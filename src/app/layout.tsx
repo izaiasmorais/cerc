@@ -4,7 +4,7 @@ import Providers from "./providers";
 
 import "./globals.css";
 
-export const geist = localFont({
+const geist = localFont({
 	src: "./fonts/GeistVF.woff",
 	variable: "--font-geist-sans",
 	weight: "100 900",

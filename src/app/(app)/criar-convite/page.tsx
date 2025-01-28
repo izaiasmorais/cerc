@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { PhoneInput } from "@/components/ui/phone-input";
 import { useForm, type SubmitErrorHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateInviteRequestBody } from "@/@types/invite";
 import { createInvite } from "@/api/invites/create-invite";
 import { LoaderCircle } from "lucide-react";
@@ -16,6 +16,7 @@ import { ThemeSwitcher } from "@/components/global/theme-switcher";
 
 import Link from "next/link";
 import z from "zod";
+import { CopyInviteCode } from "@/components/invites/copy-invite-code-box";
 
 const createInviteFormSchema = z.object({
 	guestName: z.string(),
@@ -27,6 +28,8 @@ const createInviteFormSchema = z.object({
 export type CreateInviteFormData = z.infer<typeof createInviteFormSchema>;
 
 export default function CreateInvite() {
+	const queryClient = useQueryClient();
+
 	const { register, handleSubmit, setValue } = useForm<CreateInviteFormData>({
 		defaultValues: {
 			guestName: "",
@@ -37,25 +40,28 @@ export default function CreateInvite() {
 		resolver: zodResolver(createInviteFormSchema),
 	});
 
-	const { isPending } = useMutation({
+	const {
+		data: result,
+		mutate: createPrescriptionFn,
+		isPending,
+	} = useMutation({
 		mutationFn: (data: CreateInviteRequestBody) => createInvite(data),
 		mutationKey: ["create-invite"],
 		onSuccess: () => {
-			// queryClient.invalidateQueries({
-			// 	queryKey: ["invites"],
-			// });
+			queryClient.invalidateQueries({
+				queryKey: ["invites"],
+			});
 			toast.success("Convite criado com sucesso!");
 		},
 	});
 
 	const onFormError: SubmitErrorHandler<CreateInviteFormData> = (errors) => {
 		console.log(errors);
-		toast.error("Preencha todos os campos obrigatórios");
+		toast.error("Erro ao criar convite");
 	};
 
 	function handleCreateInvite(data: CreateInviteFormData) {
-		// createPrescriptionFn(data);
-		console.log(data);
+		createPrescriptionFn(data);
 	}
 
 	function setInitalDate(date: string) {
@@ -127,7 +133,11 @@ export default function CreateInvite() {
 			</div>
 
 			<div className="flex items-center justify-center flex-1 w-full">
-				<EmptyState />
+				{!result && <EmptyState />}
+
+				{!isPending && result && (
+					<CopyInviteCode inviteCode={result.data.code} />
+				)}
 			</div>
 		</div>
 	);

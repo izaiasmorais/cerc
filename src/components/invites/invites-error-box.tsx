@@ -8,7 +8,7 @@ export function InvalidInviteBox({ code }: InvalidInviteBoxProps) {
 	return (
 		<div className="w-[400px] border-2 rounded-lg">
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Status</span>
+				<span className="text-muted-foreground">Status</span>
 				<span className="flex items-center gap-2">
 					Convite Inválido
 					<CircleX className="text-red-500" />
@@ -16,27 +16,27 @@ export function InvalidInviteBox({ code }: InvalidInviteBoxProps) {
 			</div>
 
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Código</span>
+				<span className="text-muted-foreground">Código</span>
 				<span>{code}</span>
 			</div>
 
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Nome</span>
+				<span className="text-muted-foreground">Nome</span>
 				<span>---</span>
 			</div>
 
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Telefone</span>
+				<span className="text-muted-foreground">Telefone</span>
 				<span>---</span>
 			</div>
 
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Data Inicial</span>
+				<span className="text-muted-foreground">Data Inicial</span>
 				<span>---</span>
 			</div>
 
 			<div className="flex w-full justify-between item p-2 border-b-2">
-				<span className="text-slate-600">Data Final</span>
+				<span className="text-muted-foreground">Data Final</span>
 				<span>---</span>
 			</div>
 		</div>

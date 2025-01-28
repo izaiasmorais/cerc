@@ -11,6 +11,7 @@ import { InvitesValidationBoxSkeleton } from "@/components/invites/invites-valid
 import { InvalidInviteBox } from "@/components/invites/invites-error-box";
 import { ThemeSwitcher } from "@/components/global/theme-switcher";
 import { toast } from "sonner";
+import { useState } from "react";
 
 import z from "zod";
 import Link from "next/link";
@@ -22,14 +23,14 @@ const validateInviteFormSchema = z.object({
 export type ValidateInviteFormData = z.infer<typeof validateInviteFormSchema>;
 
 export default function ValidateInvite() {
-	const { handleSubmit, register, watch } = useForm<ValidateInviteFormData>({
+	const [inviteCode, setInviteCode] = useState<string | null>(null);
+
+	const { handleSubmit, register } = useForm<ValidateInviteFormData>({
 		defaultValues: {
 			inviteCode: "",
 		},
 		resolver: zodResolver(validateInviteFormSchema),
 	});
-
-	const inviteCode = watch("inviteCode");
 
 	const {
 		data: result,
@@ -39,9 +40,6 @@ export default function ValidateInvite() {
 		mutationFn: (data: ValidateInviteFormData) =>
 			validateInvite(data.inviteCode),
 		mutationKey: ["validate-invite"],
-		onSuccess: (result) => {
-			console.log(result);
-		},
 	});
 
 	const onFormError: SubmitErrorHandler<ValidateInviteFormData> = (errors) => {
@@ -51,6 +49,7 @@ export default function ValidateInvite() {
 
 	function handleValidateInvite(data: ValidateInviteFormData) {
 		validateInviteFn(data);
+		setInviteCode(data.inviteCode);
 	}
 
 	return (
@@ -87,7 +86,7 @@ export default function ValidateInvite() {
 			<div className="flex items-center justify-center flex-1 w-full">
 				{isPending && <InvitesValidationBoxSkeleton />}
 
-				{!isPending && result && result.data === null && (
+				{!isPending && result && result.data === null && inviteCode && (
 					<InvalidInviteBox code={inviteCode} />
 				)}
 
