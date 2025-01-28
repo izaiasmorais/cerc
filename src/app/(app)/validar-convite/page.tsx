@@ -1,10 +1,57 @@
 "use client";
-import { InvalidInvite } from "@/components/invites/invalid-invites";
+import { InvitesValidationBox } from "@/components/invites/invites-validation-box";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useForm, type SubmitErrorHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { validateInvite } from "@/api/invites/validate-invite";
+import { toast } from "sonner";
+
+import z from "zod";
 import Link from "next/link";
+import { EmptyState } from "@/components/global/empty-state";
+import { InvitesValidationBoxSkeleton } from "@/components/invites/invites-validation-box-skeleton";
+import { InvalidInviteBox } from "@/components/invites/invites-error-box";
+
+const validateInviteFormSchema = z.object({
+	inviteCode: z.string(),
+});
+
+export type ValidateInviteFormData = z.infer<typeof validateInviteFormSchema>;
 
 export default function ValidateInvite() {
+	const { handleSubmit, register, watch } = useForm<ValidateInviteFormData>({
+		defaultValues: {
+			inviteCode: "",
+		},
+		resolver: zodResolver(validateInviteFormSchema),
+	});
+
+	const inviteCode = watch("inviteCode");
+
+	const {
+		data: result,
+		mutate: validateInviteFn,
+		isPending,
+	} = useMutation({
+		mutationFn: (data: ValidateInviteFormData) =>
+			validateInvite(data.inviteCode),
+		mutationKey: ["validate-invite"],
+		onSuccess: (result) => {
+			console.log(result);
+		},
+	});
+
+	const onFormError: SubmitErrorHandler<ValidateInviteFormData> = (errors) => {
+		console.log(errors);
+		toast.error("Preencha todos os campos obrigatórios");
+	};
+
+	function handleValidateInvite(data: ValidateInviteFormData) {
+		validateInviteFn(data);
+	}
+
 	return (
 		<div className="h-full space-y-4 flex flex-col">
 			<div className="w-full flex justify-between items-center">
@@ -14,21 +61,38 @@ export default function ValidateInvite() {
 					<Link href="/">
 						<Button variant="secondary">Listar convites</Button>
 					</Link>
-					
+
 					<Link href="/criar-convite">
 						<Button>Criar convite</Button>
 					</Link>
 				</div>
 			</div>
 
-			<div className="w-full flex gap-2">
-				<Input type="text" placeholder="Digite o código do convite" />
+			<form
+				onSubmit={handleSubmit(handleValidateInvite, onFormError)}
+				className="w-full flex gap-2"
+			>
+				<Input
+					type="text"
+					placeholder="Digite o código do convite"
+					{...register("inviteCode")}
+				/>
 
 				<Button className="w-[200px]">Validar</Button>
-			</div>
+			</form>
 
 			<div className="flex items-center justify-center flex-1 w-full">
-				<InvalidInvite />
+				{isPending && <InvitesValidationBoxSkeleton />}
+
+				{!isPending && result && result.data === null && (
+					<InvalidInviteBox code={inviteCode} />
+				)}
+
+				{!isPending && result && result.data !== null && (
+					<InvitesValidationBox invite={result.data} />
+				)}
+
+				{!isPending && !result && <EmptyState />}
 			</div>
 		</div>
 	);

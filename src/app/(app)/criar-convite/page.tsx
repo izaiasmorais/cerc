@@ -67,7 +67,7 @@ export default function CreateInvite() {
 	return (
 		<div className="h-full space-y-4 flex flex-col">
 			<div className="w-full flex justify-between items-center">
-				<strong className="text-2xl">Validar Convite</strong>
+				<strong className="text-2xl">Criar Convite</strong>
 
 				<div className="space-x-4">
 					<Link href="/">

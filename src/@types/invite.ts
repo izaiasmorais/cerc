@@ -1,4 +1,4 @@
-export type Invite = {
+export interface Invite {
 	id: string;
 	guestName: string;
 	code: string;
@@ -6,7 +6,7 @@ export type Invite = {
 	inicialDate: string;
 	finalDate: string;
 	status: string;
-};
+}
 
 export interface CreateInviteRequestBody {
 	guestName: string;
