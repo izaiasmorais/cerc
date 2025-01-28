@@ -1,14 +1,22 @@
 import {
 	Table,
 	TableBody,
-	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Badge } from "../ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { getInvites } from "@/api/invites/get-invitations";
+import { InvitesTableItem } from "./invites-table-item";
+import { InvitesTableItemSkeleton } from "./invites-table-items-skeleton";
+import { EmptyState } from "../global/empty-state";
 
 export function InvitesTable() {
+	const { data: result, isLoading: isLoadingInvites } = useQuery({
+		queryKey: ["invites"],
+		queryFn: getInvites,
+	});
+
 	return (
 		<div className="rounded-md">
 			<Table>
@@ -26,19 +34,20 @@ export function InvitesTable() {
 						<TableHead className="min-w-[130px] w-[130px]">Status</TableHead>
 					</TableRow>
 				</TableHeader>
+
 				<TableBody>
-					<TableRow>
-						<TableCell className="font-mono font-bold">9b1218x1</TableCell>
-						<TableCell>Izaías de Melo Lima Morais</TableCell>
-						<TableCell>(86) 9 8116-0707</TableCell>
-						<TableCell>24/01/25 - 08:00</TableCell>
-						<TableCell>25/01/25 - 22:00</TableCell>
-						<TableCell>
-							<Badge>Vigente</Badge>
-						</TableCell>
-					</TableRow>
+					{!isLoadingInvites &&
+						result &&
+						result.data.map((invite) => {
+							return <InvitesTableItem key={invite.id} invite={invite} />;
+						})}
+
+					{isLoadingInvites && <InvitesTableItemSkeleton />}
 				</TableBody>
 			</Table>
+
+			{((result && result.data.length === 0 && !isLoadingInvites) ||
+				(!result && !isLoadingInvites)) && <EmptyState />}
 		</div>
 	);
 }

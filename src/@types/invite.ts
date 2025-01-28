@@ -3,8 +3,9 @@ export type Invite = {
 	guestName: string;
 	code: string;
 	phone: string;
-	inicialDate: Date;
-	finalDate: Date;
+	inicialDate: string;
+	finalDate: string;
+	status: string;
 };
 
 export interface CreateInviteRequestBody {

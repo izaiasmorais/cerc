@@ -64,6 +64,7 @@ const InputComponent = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<Input
 		className={cn("rounded-e-lg rounded-s-none", className)}
+	placeholder="+55 99 99999-9999"
 		{...props}
 		ref={ref}
 	/>
@@ -93,7 +94,6 @@ const CountrySelect = ({
 					variant="outline"
 					className="flex gap-1 rounded-e-none rounded-s-lg border-r-0 px-3 focus:z-10"
 					disabled={disabled}
-					
 				>
 					<FlagComponent
 						country={selectedCountry}

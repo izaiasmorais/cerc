@@ -1,5 +1,4 @@
 "use client";
-import { EmptyState } from "@/components/global/empty-state";
 import { Button } from "@/components/ui/button";
 import { DateTimePicker } from "@/components/ui/date-time-picker";
 import { Input } from "@/components/ui/input";
@@ -12,6 +11,7 @@ import { CreateInviteRequestBody } from "@/@types/invite";
 import { createInvite } from "@/api/invites/create-invite";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
+import { EmptyState } from "@/components/global/empty-state";
 import Link from "next/link";
 import z from "zod";
 
