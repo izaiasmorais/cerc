@@ -35,7 +35,7 @@ export default function CreateInvite() {
 		resolver: zodResolver(createInviteFormSchema),
 	});
 
-	const { mutate: createPrescriptionFn, isPending } = useMutation({
+	const { isPending } = useMutation({
 		mutationFn: (data: CreateInviteRequestBody) => createInvite(data),
 		mutationKey: ["create-invite"],
 		onSuccess: () => {
