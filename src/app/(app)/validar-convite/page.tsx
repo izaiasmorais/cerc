@@ -1,23 +1,23 @@
 "use client";
-import { InvalidInvitation } from "@/components/invitations/invalid-invitation";
+import { InvalidInvite } from "@/components/invites/invalid-invites";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ValidateInvite() {
-	const router = useRouter();
-
 	return (
 		<div className="h-full space-y-4 flex flex-col">
 			<div className="w-full flex justify-between items-center">
 				<strong className="text-2xl">Validar Convite</strong>
 
 				<div className="space-x-4">
-					<Button variant="secondary" onClick={() => router.push("/")}>
-						Listar convites
-					</Button>
-
-					<Button>Criar convite</Button>
+					<Link href="/">
+						<Button variant="secondary">Listar convites</Button>
+					</Link>
+					
+					<Link href="/criar-convite">
+						<Button>Criar convite</Button>
+					</Link>
 				</div>
 			</div>
 
@@ -28,7 +28,7 @@ export default function ValidateInvite() {
 			</div>
 
 			<div className="flex items-center justify-center flex-1 w-full">
-				<InvalidInvitation />
+				<InvalidInvite />
 			</div>
 		</div>
 	);

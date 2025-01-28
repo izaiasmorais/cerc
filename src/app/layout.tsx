@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 import localFont from "next/font/local";
+import Providers from "./providers";
+
 import "./globals.css";
 
 const geist = localFont({
@@ -24,7 +26,9 @@ export default function RootLayout({
 				<link rel="icon" href="/logo.png" sizes="any" />
 			</head>
 
-			<body className={geist.className}>{children}</body>
+			<body className={geist.className}>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }

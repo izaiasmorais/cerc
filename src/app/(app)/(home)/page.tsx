@@ -1,7 +1,8 @@
 "use client";
-import { InvitationsTable } from "@/components/invitations/invitations-table";
+import { InvitesTable } from "@/components/invites/invites-table";
 import { Button } from "../../../components/ui/button";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
 	const router = useRouter();
@@ -12,18 +13,19 @@ export default function Home() {
 				<strong className="text-2xl">Convites</strong>
 
 				<div className="space-x-4">
-					<Button
-						variant="secondary"
-						onClick={() => router.push("/validar-convite")}
-					>
-						Validar convite
-					</Button>
+					<Link href="/validar-convite">
+						<Button variant="secondary" >
+							Validar convite
+						</Button>
+					</Link>
 
-					<Button>Criar convite</Button>
+					<Link href="/criar-convite">
+						<Button >Criar convite</Button>
+					</Link>
 				</div>
 			</div>
 
-			<InvitationsTable />
+			<InvitesTable />
 		</>
 	);
 }
