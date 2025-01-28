@@ -6,13 +6,14 @@ import { useForm, type SubmitErrorHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { validateInvite } from "@/api/invites/validate-invite";
+import { EmptyState } from "@/components/global/empty-state";
+import { InvitesValidationBoxSkeleton } from "@/components/invites/invites-validation-box-skeleton";
+import { InvalidInviteBox } from "@/components/invites/invites-error-box";
+import { ThemeSwitcher } from "@/components/global/theme-switcher";
 import { toast } from "sonner";
 
 import z from "zod";
 import Link from "next/link";
-import { EmptyState } from "@/components/global/empty-state";
-import { InvitesValidationBoxSkeleton } from "@/components/invites/invites-validation-box-skeleton";
-import { InvalidInviteBox } from "@/components/invites/invites-error-box";
 
 const validateInviteFormSchema = z.object({
 	inviteCode: z.string(),
@@ -57,7 +58,9 @@ export default function ValidateInvite() {
 			<div className="w-full flex justify-between items-center">
 				<strong className="text-2xl">Validar Convite</strong>
 
-				<div className="space-x-4">
+				<div className="flex items-center gap-4">
+					<ThemeSwitcher />
+
 					<Link href="/">
 						<Button variant="secondary">Listar convites</Button>
 					</Link>

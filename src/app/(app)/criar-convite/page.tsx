@@ -12,6 +12,8 @@ import { createInvite } from "@/api/invites/create-invite";
 import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { EmptyState } from "@/components/global/empty-state";
+import { ThemeSwitcher } from "@/components/global/theme-switcher";
+
 import Link from "next/link";
 import z from "zod";
 
@@ -69,7 +71,9 @@ export default function CreateInvite() {
 			<div className="w-full flex justify-between items-center">
 				<strong className="text-2xl">Criar Convite</strong>
 
-				<div className="space-x-4">
+				<div className="flex items-center gap-4">
+					<ThemeSwitcher />
+
 					<Link href="/">
 						<Button variant="secondary">Listar convites</Button>
 					</Link>
@@ -112,7 +116,7 @@ export default function CreateInvite() {
 						<DateTimePicker setValue={setFinalDate} />
 					</div>
 
-					<div className="flex flex-col w-full max-w-[150px] gap-2 justify-end">
+					<div className="flex flex-col w-full max-w-[200px] gap-2 justify-end">
 						<Button>
 							{isPending && <LoaderCircle className="animate-spin" />}
 
